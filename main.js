@@ -87,11 +87,23 @@ ResultRow = function(occurrenceCount, combos) {
     this.combos = ko.observableArray(combos);
 }
 
+calcModel = function(rows) {
+    this.avgVal = ko.computed(function() {
+        return this.firstName() + " " + this.lastName();
+    }, this);
+}
+
+MyViewModel = function (dataRows) {
+    this.negIndex = ko.observable(0);
+    this.rows = ko.observableArray(dataRows);
+}
 
 $(document).ready(function() {
     $('#inp_0').focus();
 
-    var negentropyIndex =
+    var rows = new Array();
+    var viewModel = new MyViewModel(rows);
+    ko.applyBindings(viewModel);
 
     $('#calc').click(function(e) {
         kubik = [];
@@ -104,7 +116,7 @@ $(document).ready(function() {
 
         var kubikLength = kubik.length;
         var avgVal = kubikLength / 36;
-        //var msg = "Количество бросков кубика: " + kubikLength + "<br />" + "Вы ввели числа: " + kubik + "<br />"
+        
         kubik.push(kubik[0]);
 
         var groupCombination = new Array();
@@ -123,14 +135,11 @@ $(document).ready(function() {
         values.sort(function(a, b){return b-a});
 
         var container = $('#result');
-        ko.cleanNode(container[0]);
-        container.html('');
-//        container.append(msg);
 
         var avgVal = kubik.length / 36;
         combination = groupCombination;
-        var rows = new Array();
 
+        rows = new Array();
         var sp1 = 0; var sp2 = 0;
         for (var c = MaxVal; c >=0; c--) {
             var len = groupCombination[c] ? groupCombination[c].length : 0;
@@ -142,15 +151,11 @@ $(document).ready(function() {
             }
             rows.push(new ResultRow(c, groupCombination[c]));
         }
+        viewModel.rows(rows);
+
         var sp = (sp1 + sp2) / 2;
         var pn = Math.round(100*sp / (18 * avgVal));
-        $('#negIndex').html(pn);
-        var viewModel = function MyViewModel() {
-            this.allData = {rows: rows};
-        }
-        ko.applyBindings(viewModel);
-
-
+        viewModel.negIndex(pn);
     });
 
     $(document).on('keydown', '.num', function(e){
@@ -184,6 +189,8 @@ $(document).ready(function() {
             firstEl.addClass('selected');
         }
     })
+
+
 });
 
 

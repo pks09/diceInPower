@@ -69,25 +69,25 @@
 </head>
 <body>
 <script type="text/html" id="result-tpl" >
-    <table cellspacing="0" cellpadding="0" class="res">
-        <tbody data-bind='foreach: rows'>
-            <tr>
-                <td class="data" data-bind="text: occurrenceCount" ></td>
-                <td class="data" data-bind="text: combosCount" ></td>
-                <td data-bind="foreach: combos" >
-                    <input class="combo" type="button" data-bind="value: comboName, attr: {'data-i': comboI, 'data-j': comboJ}"  />
-                </td>
-            </tr>
-    </tbody>
-    </table>
+
 </script>
 <h1>Место силы</h1>
 <div id="cont">
     <input class="num" id="inp_0" type="text"/>
 </div>
-<div><input id="calc" value="Рассчитать" type="button"/> ПН = <span id="negIndex" >0</span>% </div>
-<div data-bind="template: { name: 'result-tpl', data: allData }" id="result">
-
+<div><input id="calc" value="Рассчитать" type="button"/> ПН = <span data-bind="text: negIndex" id="negIndex" ></span>% </div>
+<div id="result">
+    <table cellspacing="0" cellpadding="0" class="res">
+        <tbody data-bind='foreach: rows'>
+        <tr>
+            <td class="data" data-bind="text: occurrenceCount" ></td>
+            <td class="data" data-bind="text: combosCount" ></td>
+            <td data-bind="foreach: combos" >
+                <input class="combo" type="button" data-bind="value: comboName, attr: {'data-i': comboI, 'data-j': comboJ}"  />
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
