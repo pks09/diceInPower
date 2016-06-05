@@ -72,9 +72,26 @@ function numKeyDown(ev) {
     createNewNumEl(el);
 }
 
+ComboObj = function(i, j) {
+    this.comboI = i;
+    this.comboJ = j;
+    this.comboName = i+' '+j;
+}
+
+ResultRow = function(occurrenceCount, combos) {
+    this.occurrenceCount = occurrenceCount;
+    if (typeof(combos) == "undefined") {
+        combos = new Array();
+    }
+    this.combosCount = combos.length;
+    this.combos = ko.observableArray(combos);
+}
+
 
 $(document).ready(function() {
     $('#inp_0').focus();
+
+    var negentropyIndex =
 
     $('#calc').click(function(e) {
         kubik = [];
@@ -89,12 +106,6 @@ $(document).ready(function() {
         var avgVal = kubikLength / 36;
         //var msg = "Количество бросков кубика: " + kubikLength + "<br />" + "Вы ввели числа: " + kubik + "<br />"
         kubik.push(kubik[0]);
-
-        ComboObj = function(i, j) {
-            this.comboI = i;
-            this.comboJ = j;
-            this.comboName = i+' '+j;
-        }
 
         var groupCombination = new Array();
         var values = new Array();
@@ -120,15 +131,6 @@ $(document).ready(function() {
         combination = groupCombination;
         var rows = new Array();
 
-        ResultRow = function(occurrenceCount, combos) {
-            this.occurrenceCount = occurrenceCount;
-            if (typeof(combos) == "undefined") {
-                combos = new Array();
-            }
-            this.combosCount = combos.length;
-            this.combos = ko.observableArray(combos);
-        }
-
         var sp1 = 0; var sp2 = 0;
         for (var c = MaxVal; c >=0; c--) {
             var len = groupCombination[c] ? groupCombination[c].length : 0;
@@ -142,8 +144,9 @@ $(document).ready(function() {
         }
         var sp = (sp1 + sp2) / 2;
         var pn = Math.round(100*sp / (18 * avgVal));
+        $('#negIndex').html(pn);
         var viewModel = function MyViewModel() {
-            this.allData = {rows: rows, pn: pn};
+            this.allData = {rows: rows};
         }
         ko.applyBindings(viewModel);
 
