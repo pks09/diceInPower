@@ -6,7 +6,13 @@
     <script src="knockout-3.4.0.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
     <style>
-        body { font-family: Arial }
+        body { font-family: Arial; font-size: 27px; }
+        h1 { font-size: 36px; }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
         .num {
             width: 40px;
             margin-right: 4px;
@@ -47,12 +53,13 @@
 		}
         .pn { font-size: 28px; margin-top: 15px; }
 		.res { border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; margin-top: 15px; }
-		.res td { border-top: 1px solid #ccc; border-right: 1px solid #ccc; min-width: 35px; padding-top: 3px; font-size: 27px; }
+		.res td, .res th { border-top: 1px solid #ccc; border-right: 1px solid #ccc; min-width: 35px; padding-top: 3px; font-size: 27px; }
+        .res th { padding: 2px; font-size: 17px; }
         .res td input { border: none; border-bottom: dashed 1px #1e97d0; background-color: #fff; margin-bottom: 3px; }
         .res td.data { text-align: center; }
         input { font-size: 25px; padding-top: 1px; cursor: pointer; }
 
-        @media only screen and (max-width : 852px) {
+        @media only screen and (max-width : 865px) {
             #cont { max-width: 620px; }
             .num { width: 45px; height: 45px; font-size: 40px; }
             .n36 { width: 45px; height: 60px; top: 25px; }
@@ -71,13 +78,20 @@
 <script type="text/html" id="result-tpl" >
 
 </script>
-<h1>Место силы</h1>
+<h1>Агент силы</h1>
 <div id="cont">
-    <input class="num" id="inp_0" type="text"/>
+    <input class="num" id="inp_0" type="number"/>
 </div>
 <div><input id="calc" value="Рассчитать" type="button"/> ПН = <span data-bind="text: negIndex" id="negIndex" ></span>% </div>
 <div id="result">
     <table cellspacing="0" cellpadding="0" class="res">
+        <thead>
+            <tr>
+                <th>i (кол-во повторов)</th>
+                <th>Xi (кол-во комбинаций)</th>
+                <th>Комбинации</th>
+            </tr>
+        </thead>
         <tbody data-bind='foreach: rows'>
         <tr>
             <td class="data" data-bind="text: occurrenceCount" ></td>

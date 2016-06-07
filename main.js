@@ -5,10 +5,11 @@ var answer = "";
 function createNewNumEl(el) {
     var newId = el.id.substring(4)-1+2;
     if ($('#inp_'+newId).length > 0) {
+        $('#inp_'+newId).focus();
         return false;
     }
 
-    $('#cont').append('<input class="num" id="inp_'+newId+'" type="text"/>');
+    $('#cont').append('<input class="num" id="inp_'+newId+'" type="number"/>');
     var newEl = $('#inp_'+newId);
     var numEl = newId+1*1;
     if ((numEl) % 6 == 0) {
@@ -94,7 +95,7 @@ calcModel = function(rows) {
 }
 
 MyViewModel = function (dataRows) {
-    this.negIndex = ko.observable(0);
+    this.negIndex = ko.observable('?');
     this.rows = ko.observableArray(dataRows);
 }
 
@@ -116,7 +117,7 @@ $(document).ready(function() {
 
         var kubikLength = kubik.length;
         var avgVal = kubikLength / 36;
-        
+
         kubik.push(kubik[0]);
 
         var groupCombination = new Array();
