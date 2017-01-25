@@ -23,6 +23,8 @@ function createNewNumEl(el) {
     newEl.focus();
 }
 
+
+
 function numKeyDown(ev) {
     ev = ev || event;
     var sign=ev.keyCode? ev.keyCode : ev.charCode;
@@ -79,6 +81,11 @@ ComboObj = function(i, j) {
     this.comboName = i+' '+j;
 }
 
+PnRow = function(value, goal) {
+    this.val = ko.observable(value);
+    this.goal = ko.observable(goal);
+}
+
 ResultRow = function(occurrenceCount, combos) {
     this.occurrenceCount = occurrenceCount;
     if (typeof(combos) == "undefined") {
@@ -94,17 +101,36 @@ calcModel = function(rows) {
     }, this);
 }
 
-MyViewModel = function (dataRows) {
+MainViewModel = function (dataRows, gn) {
     this.negIndex = ko.observable('?');
     this.rows = ko.observableArray(dataRows);
+    this.setGoalsMode = ko.observable(true);
+
+    var self = this;
+    self.gn = ko.observableArray(gn);
+
+    self.addGn = function(data, e) {
+        debugger;
+        var newItem = new PnRow("?", "");
+        self.gn.push(newItem);
+    };
+
+    self.removeGn = function(item) {
+        self.gn.remove(item);
+    };
+
+    self.switchMode = function() {
+        this.setGoalsMode(false);
+        $('#inp_0').focus();
+    }
 }
 
-$(document).ready(function() {
-    $('#inp_0').focus();
 
+$(document).ready(function() {
     var rows = new Array();
-    var viewModel = new MyViewModel(rows);
+    var viewModel = new MainViewModel(rows, [new PnRow("?", "")]);
     ko.applyBindings(viewModel);
+
 
     $('#calc').click(function(e) {
         kubik = [];
@@ -122,11 +148,13 @@ $(document).ready(function() {
 
         var groupCombination = new Array();
         var values = new Array();
+        var comboCounts = new Array();
         for (i = 1; i <= 6; i++) {
             for (j = 1; j <= 6; j++) {
                 var value = comboCount(i, j);
                 values.push(value);
                 var comboGroup = groupCombination[value] ? groupCombination[value] : new Array();
+                comboCounts[i+''+j] = value;
                 comboGroup.push(new ComboObj(i, j));
                 groupCombination[value] = comboGroup;
             }
@@ -135,10 +163,7 @@ $(document).ready(function() {
         values = $.unique(values);
         values.sort(function(a, b){return b-a});
 
-        var container = $('#result');
-
         var avgVal = kubik.length / 36;
-        combination = groupCombination;
 
         rows = new Array();
         var sp1 = 0; var sp2 = 0;
@@ -153,6 +178,11 @@ $(document).ready(function() {
             rows.push(new ResultRow(c, groupCombination[c]));
         }
         viewModel.rows(rows);
+
+        ko.utils.arrayForEach(viewModel.gn(), function(item) {
+            var j = comboCounts[item.goal()];
+            item.val(100*(j-avgVal) / avgVal);
+        });
 
         var sp = (sp1 + sp2) / 2;
         var pn = Math.round(100*sp / (18 * avgVal));
@@ -191,7 +221,9 @@ $(document).ready(function() {
         }
     })
 
+    $(document).on('click', '#clear', function() {
 
+    });
 });
 
 

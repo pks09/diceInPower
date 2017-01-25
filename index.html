@@ -58,50 +58,94 @@
         .res td input { border: none; border-bottom: dashed 1px #1e97d0; background-color: #fff; margin-bottom: 3px; }
         .res td.data { text-align: center; }
         input { font-size: 25px; padding-top: 1px; cursor: pointer; }
+        .goalsResults {
+            margin-top: 12px;
+        }
+        .goals { padding: 0; }
+        .goals li {
+            list-style: none;
+            margin-bottom: 3px;
+        }
+        .goalCombo {
+            width: 42px;
+            text-align: center;
+        }
+        .minus {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+        .minus img {
+            width: 32px;
+            margin-top: -8px;
+        }
 
         @media only screen and (max-width : 865px) {
             #cont { max-width: 620px; }
-            .num { width: 45px; height: 45px; font-size: 40px; }
+            .num { width: 45px;  }
+            .goalCombo { width: 54px; }
+            input[type=number] { height: 45px; font-size: 40px; }
             .n36 { width: 45px; height: 60px; top: 25px; }
             .res td { font-size: 40px; }
         }
 
         @media only screen and (max-width : 632px) {
             #cont { max-width: 380px; }
-            .num { width: 50px; height: 50px; font-size: 42px; }
+            .num { width: 50px; }
+            .goalCombo { width: 60px; }
+            input[type=number] { height: 50px; font-size: 42px; }
             .n36 { width: 50px; height: 65px; top: 27px; margin-bottom: 34px; margin-right: 5px; }
             .res td { font-size: 42px; }
         }
     </style>
 </head>
 <body>
-<script type="text/html" id="result-tpl" >
-
-</script>
 <h1>Агент силы</h1>
-<div id="cont">
-    <input class="num" id="inp_0" type="number"/>
+<div data-bind="visible: setGoalsMode" >
+<ul class="goals" data-bind='foreach: gn' >
+    <li>
+        <input data-bind="event: {keyup: $root.addGn}, value: goal" class="goalCombo" type="number"/>
+        <!-- ko if: $index() !== 0 -->
+        <button type="button" class="minus" data-bind="click: $root.removeGn" ><img align="absmiddle" src="icons/minus.png" alt="Удалить"/></button>
+        <!-- /ko -->
+    </li>
+</ul>
+
+<button data-bind='click: addGn'>Задать дополнительную комбинацию</button>
+<button data-bind='click: switchMode'>Перейти к вводу экспериментальных данных</button>
 </div>
-<div><input id="calc" value="Рассчитать" type="button"/> ПН = <span data-bind="text: negIndex" id="negIndex" ></span>% </div>
-<div id="result">
-    <table cellspacing="0" cellpadding="0" class="res">
-        <thead>
+<div data-bind="visible: !setGoalsMode()" >
+    <div id="cont">
+        <input class="num" id="inp_0" type="number"/>
+    </div>
+    <div><input id="calc" value="Рассчитать" type="button"/> <input id="clear" value="Начать занова" type="button"/>
+        ПН = <span data-bind="text: negIndex" id="negIndex" ></span>%
+        <div class="goalsResults" >
+            <!-- ko foreach: gn -->
+            ЦПН<sub data-bind="text: goal" ></sub> = <span data-bind="text: val" ></span>%
+            <!-- /ko -->
+        </div>
+    </div>
+    <div id="result">
+        <table cellspacing="0" cellpadding="0" class="res">
+            <thead>
+                <tr>
+                    <th>i (кол-во повторов)</th>
+                    <th>Xi (кол-во комбинаций)</th>
+                    <th>Комбинации</th>
+                </tr>
+            </thead>
+            <tbody data-bind='foreach: rows'>
             <tr>
-                <th>i (кол-во повторов)</th>
-                <th>Xi (кол-во комбинаций)</th>
-                <th>Комбинации</th>
+                <td class="data" data-bind="text: occurrenceCount" ></td>
+                <td class="data" data-bind="text: combosCount" ></td>
+                <td data-bind="foreach: combos" >
+                    <input class="combo" type="button" data-bind="value: comboName, attr: {'data-i': comboI, 'data-j': comboJ}"  />
+                </td>
             </tr>
-        </thead>
-        <tbody data-bind='foreach: rows'>
-        <tr>
-            <td class="data" data-bind="text: occurrenceCount" ></td>
-            <td class="data" data-bind="text: combosCount" ></td>
-            <td data-bind="foreach: combos" >
-                <input class="combo" type="button" data-bind="value: comboName, attr: {'data-i': comboI, 'data-j': comboJ}"  />
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
