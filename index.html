@@ -54,16 +54,18 @@
         .pn { font-size: 28px; margin-top: 15px; }
 		.res { border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; margin-top: 15px; }
 		.res td, .res th { border-top: 1px solid #ccc; border-right: 1px solid #ccc; min-width: 35px; padding-top: 3px; font-size: 27px; }
-        .res th { padding: 2px; font-size: 17px; }
+        .res th { padding: 6px; font-size: 17px; }
         .res td input { border: none; border-bottom: dashed 1px #1e97d0; background-color: #fff; margin-bottom: 3px; }
         .res td.data { text-align: center; }
         input { font-size: 25px; padding-top: 1px; cursor: pointer; }
+        .descr p { font-size: 18px; }
 
         @media only screen and (max-width : 865px) {
             #cont { max-width: 620px; }
             .num { width: 45px; height: 45px; font-size: 40px; }
             .n36 { width: 45px; height: 60px; top: 22px; }
             .res td { font-size: 40px; }
+            .descr p { font-size: 20px; }
         }
 
         @media only screen and (max-width : 632px) {
@@ -71,14 +73,27 @@
             .num { width: 50px; height: 50px; font-size: 42px; }
             .n36 { width: 50px; height: 65px; top: 25px; margin-bottom: 34px; margin-right: 5px; }
             .res td { font-size: 42px; }
+            .descr p { font-size: 23px; }
         }
+
     </style>
+    <title>Пробуждение</title>
 </head>
 <body>
 <script type="text/html" id="result-tpl" >
 
 </script>
-<h1>Агент силы</h1>
+<h1>Пробуждение</h1>
+<div class="descr">
+    <p>
+        Программа "<strong>Пробуждение</strong>" может быть использована, например, для исследования Мест Силы, Пространств Силы и др.
+        <br /><br />
+        Программа&nbsp;предназначена для исследования неявных свойств упорядочения по выборке случайных данных.
+        Выборка формируется при бросании игральной кости - "кубика". Свойства упорядочения проявляют себя в выпадении выбранных комбинаций цифр чаще или реже случайного.&nbsp;
+        <br /><br />
+        Автор идеи Верищагин Д.С. (книга "Уверенность"). <br />Автор методики Поносов С.В. Методика будет опубликована позже.
+    </p>
+</div>
 <div id="cont">
     <input class="num" id="inp_0" type="number"/>
 </div>
