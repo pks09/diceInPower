@@ -88,13 +88,7 @@ ResultRow = function(occurrenceCount, combos) {
     this.combos = ko.observableArray(combos);
 }
 
-calcModel = function(rows) {
-    this.avgVal = ko.computed(function() {
-        return this.firstName() + " " + this.lastName();
-    }, this);
-}
-
-MyViewModel = function (dataRows) {
+resultsModel = function (dataRows) {
     this.negIndex = ko.observable('?');
     this.rows = ko.observableArray(dataRows);
 }
@@ -103,7 +97,7 @@ $(document).ready(function() {
     $('#inp_0').focus();
 
     var rows = new Array();
-    var viewModel = new MyViewModel(rows);
+    var viewModel = new resultsModel(rows);
     ko.applyBindings(viewModel);
 
     $('#calc').click(function(e) {
@@ -132,13 +126,6 @@ $(document).ready(function() {
             }
         }
         var MaxVal = Math.max.apply(null, values);
-        values = $.unique(values);
-        values.sort(function(a, b){return b-a});
-
-        var container = $('#result');
-
-        var avgVal = kubik.length / 36;
-        combination = groupCombination;
 
         rows = new Array();
         var sp1 = 0; var sp2 = 0;
@@ -191,10 +178,7 @@ $(document).ready(function() {
         }
     })
 
-
 });
-
-
 
 function comboCount(a, b){
     var i = 0;
