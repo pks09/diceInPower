@@ -33,6 +33,16 @@ function numKeyDown(ev) {
 
     var el = ev.target || ev.srcElement
     if (46 == sign || 8 == sign) {
+        if (el.value == '') {
+            var id = el.id.substring(4);
+            if (id == 0) {
+                return false;
+            }
+            el.remove();
+            var prevEl = $('#inp_'+(id-1));
+            prevEl.focus();
+            return false;
+        }
         el.value = '';
         return false;
     }
